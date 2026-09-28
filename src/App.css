@@ -16,7 +16,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: trasfrom 0.2s; /* Animação suave ao passar o mouse */
+  transition: transform 0.2s; /* Animação suave ao passar o mouse */
 
 }
 
@@ -114,7 +114,7 @@
 }
 
 .btn-cadastrar {
-  padding:  10px 25pc;
+  padding:  10px 25px;
   background-color: #646cff;
   color: white;
   border: none;
@@ -156,6 +156,7 @@
   border-radius:4px;
   cursor: pointer;
   font-weight: bold;
+  padding: 10px;
 }
 
 /* Efeito hover para o botào de remover ficar mais escuro ao passar o mouse */
