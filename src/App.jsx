@@ -198,9 +198,17 @@ function App() {
           emPromocao={produto.emPromocao}
          >
           {/* O conteúdo aqui dentro é passado automaticamente como "Children" */}
-          <button className='btn-comprar'>
-          Comprar
-         </button>
+
+          <div className='botoes-card-container'> 
+            <button className='btn-comprar'>Comprar</button> 
+            <button
+              onClick={() => removerProduto(produto.id)}
+              className='btn-remover'
+          >
+              Remover
+            </button>
+          </div>
+                  
         </ProdutoCard>
         ))}
       </div> 
