@@ -64,8 +64,8 @@ function App() {
       localStorage.setItem('catalogo_produtos', JSON.stringify(novaLista)); // Desfio extra: Salva no navegador
 
       // Limpa os campos
-      setNome(' ');
-      setPreco(' ');
+      setNome('');
+      setPreco('');
       setEmPromocao(false);
   };
 
@@ -119,7 +119,7 @@ function App() {
              onChange={(e) => setCategoria(e.target.value)}
               className='input-form'
               >
-              <option value= 'Fones In-ear'>Fones In-Ear</option>
+              <option value= 'Fones In-Ear'>Fones In-Ear</option>
               <option value= 'DACs e Amps'>Dacs e Amps</option>
               <option value= 'Cabos e Acessórios'>Cabos e Acessórios</option>
               <option value= 'Rádios Portáteis'>Rádios Portáteis</option>
@@ -136,7 +136,7 @@ function App() {
   
             <input 
               type="number" 
-              laceholder="Preço (R$)" 
+              placeholder="Preço (R$)" 
               value={preco}
               onChange={(e) => setPreco(e.target.value)}
               required
