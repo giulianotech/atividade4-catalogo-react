@@ -133,3 +133,10 @@
   cursor: pointer;
   font-weight: bold;
 }
+
+.mensagem-carregando {
+  text-align: center;
+  color: #4ade80;
+  font-size: 1.2em;
+  font-weight: bold;
+}

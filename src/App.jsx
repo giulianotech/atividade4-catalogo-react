@@ -1,12 +1,33 @@
-import {useState} from 'react'; // 1.Importando o useState do React
 import { ProdutoCard} from './components/ProdutoCard.jsx';
-import {produtos as produtosIniciais} from './data/produtos.js';
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
   // 2. trasformando a lista de produtos estática num "Estado" que pode mudar
-  const [listaProdutos, setListaProdutos] = useState(produtosIniciais);
+ 
+  const [listaProdutos, setListaProdutos] = useState([]); // Inicia como lista vazia
+  const [carregando, setCarregando] = useState(true); // Novo estado
 
+  // Efeito colateral para carregar dados da API simulada na inicialização
+
+  useEffect( ( ) =>{
+    const buscarProdutos = async () => {
+      try {
+        // Simula um pequeno atraso de 1 segundo para vermos a mensagem "Carregando..."
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        const resposta = await fetch('/produtos.json');
+        const dados = await resposta.json();
+
+        setListaProdutos(dados);
+      } catch (erro) {
+        console.error('Erro ao caregar os produtos:', erro);
+      } finally {
+        setCarregando(false);
+      }
+    };
+    buscarProdutos();
+  },[]); // O array vazio garante  que roda apenas uma vez quando a página abre.
   //3. Criação dos estados para guardar temporariamente o que o usuário digitar no formulário.
   const [nome, setNome] = useState(' ');
   const [preco, setPreco] = useState(' ');
@@ -51,6 +72,13 @@ function App() {
   return (
     <div className='app-container'>
       <h1>Catálogo de equipamentos de Áudio</h1>
+
+      {/* Exibe mensagem enquanto os dados não chegam */}
+      {carregando && (
+        <p className='mensagem-carregando'>
+          carregando produtos...
+        </p>
+      )}
 
       {/* Resposta do requsito 1: Evolução do Front-End*/}
      <p className='texto-reflexao'>
