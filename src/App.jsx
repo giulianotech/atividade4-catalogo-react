@@ -16,10 +16,20 @@ function App() {
         // Simula um pequeno atraso de 1 segundo para vermos a mensagem "Carregando..."
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        const resposta = await fetch('/produtos.json');
-        const dados = await resposta.json();
+        // NOVIDADE (Desafio Extra): Verifica se já existem dados salvos no navegador
+        const dadosSalvos = localStorage.getItem( 'catalogo_produtos');
+        if (dadosSalvos) {
+          //Se existir, usa os dados do localStorage (Não precisa de fetch)
+          setListaProdutos(JSON.parse(dadosSalvos));
 
-        setListaProdutos(dados);
+        } else {
+          //Se não existir, faz o fetch do JSON inicial
+          const resposta = await fetch('/produtos.json');
+          const dados = await resposta.json();
+          setListaProdutos(dados);
+          localStorage.setItem('catalogo_produtos', JSON.stringify(dados)); // Salva a carga inical
+        }
+
       } catch (erro) {
         console.error('Erro ao caregar os produtos:', erro);
       } finally {
@@ -42,22 +52,31 @@ function App() {
 
     //Monta o novo objeto do fone com os dados que estavam nos inputs.
     const novoProduto = {
-      id: listaProdutos.length + 1, // Gera um ID sequencial
+      id: listaProdutos.length > 0 ? listaProdutos[listaProdutos.length -1].id + 1 : 1, // Previne erro de ID se a lista estiver vazia
       nome: nome,
       preco: parseFloat(preco), // Garante que o preço seja sempre  um número decimal
       categoria: categoria, // Alterado de "fones In-Ear" para a variável categoria 
       emPromocao: emPromocao
+    };
 
-      };
+      const novaLista = [...listaProdutos, novoProduto];
+      setListaProdutos(novaLista); // Atualiza a tela
+      localStorage.setItem('catalogo_produtos', JSON.stringify(novaLista)); // Desfio extra: Salva no navegador
 
-      //Atualiza a lista na tela: pega tudo que já existia (...listaProdutos) e adiciona o novo
-      setListaProdutos([...listaProdutos, novoProduto]);
-
-      // Limpa os campos do formulário para o próximo cadastro
-      setNome(" ");
-      setPreco(" ");
+      // Limpa os campos
+      setNome(' ');
+      setPreco(' ');
       setEmPromocao(false);
   };
+
+   // 5. NOVA FUNÇÃO: Remover Produto
+   const removerProduto = (idParaRemover) => {
+    // filtra a lista, mantendo apenas os produtos que têm o Id diferente do que queremos remover
+      const novaLista = listaProdutos.filter((produto) => produto.id !== idParaRemover);
+      setListaProdutos(novaLista); //Atualiza a tela
+      localStorage.setItem('catalogo_produtos', JSON.stringify(novaLista)); // Desafio Extra: Atualiza no navegador
+   };
+
 
 
   // Cálculo do reduce agora olha para a "listaProdutos" (que é o estado)
